@@ -90,6 +90,123 @@ export const PROJECTS: ProjectCard[] = [
     demoUrl: "https://mapcidade-ops-dashboard.vercel.app",
     demoLabel: { en: "live demo", pt: "demo ao vivo" },
   },
+  {
+    slug: "lockdown-audit",
+    name: "mapcidade-lockdown-audit",
+    tag: "CLI",
+    problem: {
+      en: "Audits a municipal database against 10 read-only lockdown rules — misconfigured tile layers, missing spatial indexes, invalid geometry, suspicious external URLs — and prints the fix as reviewable SQL, never runs it.",
+      pt: "Audita um banco municipal contra 10 regras de travamento somente-leitura — camada de tile mal configurada, índice espacial faltando, geometria inválida, URL externa suspeita — e imprime a correção como SQL revisável, nunca roda sozinho.",
+    },
+    stack: ["TypeScript", "node:sqlite"],
+    repoUrl: "https://github.com/kaogsk/mapcidade-lockdown-audit",
+    demoUrl: null,
+    demoLabel: { en: "clone & run", pt: "clone & rode" },
+  },
+  {
+    slug: "metadata-publisher",
+    name: "mapcidade-metadata-publisher",
+    tag: "Web",
+    problem: {
+      en: "Creates, copies, and transfers map themes across profiles and databases through a two-step dry-run gate — a real write only fires after an explicit confirmation phrase.",
+      pt: "Cria, copia e transfere temas de mapa entre perfis e bancos por um gate de confirmação em duas etapas — a escrita real só acontece depois de uma frase de confirmação explícita.",
+    },
+    stack: ["Next.js 14", "Express 5", "zod", "pg"],
+    repoUrl: "https://github.com/kaogsk/mapcidade-metadata-publisher",
+    demoUrl: null,
+    demoLabel: { en: "clone & run", pt: "clone & rode" },
+  },
+  {
+    slug: "access-log-viewer",
+    name: "mapcidade-access-log-viewer",
+    tag: "Web",
+    problem: {
+      en: "Turns raw per-collaborator access and edit logs into a manager-scoped audit view with XLSX export — each manager only ever sees their own team's activity.",
+      pt: "Transforma log cru de acesso e edição por colaborador numa visão de auditoria por gestor, com export XLSX — cada gestor só vê o próprio time.",
+    },
+    stack: ["TypeScript", "Express 5", "nunjucks", "SheetJS"],
+    repoUrl: "https://github.com/kaogsk/mapcidade-access-log-viewer",
+    demoUrl: null,
+    demoLabel: { en: "clone & run", pt: "clone & rode" },
+  },
+  {
+    slug: "mobile-restore",
+    name: "mapcidade-mobile-restore",
+    tag: "CLI + Web",
+    problem: {
+      en: "Rebuilds database rows and re-uploads attachments from a mobile app's local backup — dry-run by default, a real write requires an explicit confirmation phrase.",
+      pt: "Reconstrói linhas de banco e reenvia anexos a partir de um backup local do app mobile — dry-run por padrão, escrita real exige frase de confirmação explícita.",
+    },
+    stack: ["TypeScript", "Express 5", "ssh2-sftp-client"],
+    repoUrl: "https://github.com/kaogsk/mapcidade-mobile-restore",
+    demoUrl: null,
+    demoLabel: { en: "clone & run", pt: "clone & rode" },
+  },
+  {
+    slug: "form-schema-gen",
+    name: "mapcidade-form-schema-gen",
+    tag: "Web",
+    problem: {
+      en: "Reads a table's data dictionary and infers each field's UI type from its attribute-name prefix (date, ID number, currency, ...), producing a ready-to-use form schema.",
+      pt: "Lê o dicionário de dados de uma tabela e infere o tipo de UI de cada campo pelo prefixo do nome do atributo (data, documento, monetário...), gerando um schema de formulário pronto pra uso.",
+    },
+    stack: ["TypeScript", "Express 5"],
+    repoUrl: "https://github.com/kaogsk/mapcidade-form-schema-gen",
+    demoUrl: null,
+    demoLabel: { en: "clone & run", pt: "clone & rode" },
+  },
+  {
+    slug: "certificate-extractor",
+    name: "mapcidade-certificate-extractor",
+    tag: "CLI",
+    problem: {
+      en: "Extracts a municipal certificate's PDF/DOCX content into structured JSON — block-level text merge with a confidence score, plus image, table, and font extraction.",
+      pt: "Extrai o conteúdo de uma certidão municipal em PDF/DOCX pra JSON estruturado — merge de texto em nível de bloco com score de confiança, mais extração de imagem, tabela e fonte.",
+    },
+    stack: ["Python", "PyMuPDF", "pdfplumber", "python-docx"],
+    repoUrl: "https://github.com/kaogsk/mapcidade-certificate-extractor",
+    demoUrl: null,
+    demoLabel: { en: "clone & run", pt: "clone & rode" },
+  },
+  {
+    slug: "map-hierarchy-validator",
+    name: "mapcidade-map-hierarchy-validator",
+    tag: "Web",
+    problem: {
+      en: "Runs 7 integrity checks on a profile's map hierarchy — cycles, orphan parents, cross-profile references, duplicates — and prints the reorder fix as reviewable SQL, never writes on its own.",
+      pt: "Roda 7 checagens de integridade na hierarquia de mapa de um perfil — ciclo, pai órfão, referência cruzada entre perfis, duplicado — e imprime a correção de ordem como SQL revisável, nunca escreve sozinho.",
+    },
+    stack: ["TypeScript", "Express 5"],
+    repoUrl: "https://github.com/kaogsk/mapcidade-map-hierarchy-validator",
+    demoUrl: null,
+    demoLabel: { en: "clone & run", pt: "clone & rode" },
+  },
+  {
+    slug: "report-builder",
+    name: "mapcidade-report-builder",
+    tag: "Web",
+    problem: {
+      en: "Walks a 4-step guided flow to generate one of four ready-to-send access-report texts per city, read-only end to end.",
+      pt: "Guia um fluxo de 4 passos pra gerar um de quatro tipos de relatório de acesso pronto pra enviar, por município, somente leitura do início ao fim.",
+    },
+    stack: ["TypeScript", "Express 5", "nunjucks"],
+    repoUrl: "https://github.com/kaogsk/mapcidade-report-builder",
+    demoUrl: null,
+    demoLabel: { en: "clone & run", pt: "clone & rode" },
+  },
+  {
+    slug: "spreadsheet-reconciler",
+    name: "mapcidade-spreadsheet-reconciler",
+    tag: "CLI",
+    problem: {
+      en: "Compares a client spreadsheet against a municipal database table field by field and generates the UPDATE SQL needed to reconcile the differences.",
+      pt: "Compara uma planilha de cliente contra uma tabela do banco municipal campo a campo e gera o UPDATE necessário pra reconciliar as diferenças.",
+    },
+    stack: ["Python", "pandas", "openpyxl"],
+    repoUrl: "https://github.com/kaogsk/mapcidade-spreadsheet-reconciler",
+    demoUrl: null,
+    demoLabel: { en: "clone & run", pt: "clone & rode" },
+  },
 ];
 
 export const COPY = {
@@ -122,7 +239,7 @@ export const COPY = {
     migrationTitle: "11+ legacy tools moved to a modern stack — none of it \"looked done\"",
     migrationBody:
       "Every migration was only called complete after its output was diffed line-by-line or byte-by-byte against the system it replaced — never after it merely appeared to work. That discipline produced 400+ automated tests across the migrated tools, and it's the same rule this whole portfolio follows: dry-run by default, explicit confirmation before any destructive write, evidence before claims.",
-    projectsLabel: "SIX SYSTEMS, REBUILT CLEAN",
+    projectsLabel: "15 SYSTEMS, REBUILT CLEAN",
     projectsTitle: "Pick one and look inside",
     projectsSub:
       "Each repo below is a from-scratch, fictional-data reconstruction of a real internal tool's architecture — same design decisions, none of the client data.",
@@ -159,7 +276,7 @@ export const COPY = {
     migrationTitle: "11+ ferramentas legadas migradas — nenhuma \"parecia estar pronta\"",
     migrationBody:
       "Toda migração só foi considerada pronta depois de comparar a saída, linha a linha ou byte a byte, contra o sistema que ela substituiu — nunca só porque parecia funcionar. Essa disciplina gerou mais de 400 testes automatizados nas ferramentas migradas, e é a mesma regra que esse portfolio inteiro segue: dry-run por padrão, confirmação explícita antes de qualquer escrita destrutiva, evidência antes de afirmação.",
-    projectsLabel: "SEIS SISTEMAS, RECONSTRUÍDOS DO ZERO",
+    projectsLabel: "15 SISTEMAS, RECONSTRUÍDOS DO ZERO",
     projectsTitle: "Escolha um e olhe por dentro",
     projectsSub:
       "Cada repo abaixo é uma reconstrução anonimizada, com dado fictício, da arquitetura de uma ferramenta interna real — mesma decisão técnica, nenhum dado de cliente.",

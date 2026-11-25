@@ -79,9 +79,11 @@ export default function Home() {
                   <p className="project-problem">{p.problem[lang]}</p>
                   <div className="project-stack">{p.stack.join(" · ")}</div>
                   <div className="project-links">
-                    <a href={p.repoUrl} target="_blank" rel="noreferrer">
-                      → {t.codeLink}
-                    </a>
+                    {p.repoUrl && (
+                      <a href={p.repoUrl} target="_blank" rel="noreferrer">
+                        → {t.codeLink}
+                      </a>
+                    )}
                     {p.demoUrl ? (
                       <a href={p.demoUrl} target="_blank" rel="noreferrer">
                         → {p.demoLabel[lang]}

@@ -6,51 +6,12 @@ export interface ProjectCard {
   tag: string;
   problem: Record<Lang, string>;
   stack: string[];
-  repoUrl: string;
+  repoUrl: string | null;
   demoUrl: string | null;
   demoLabel: Record<Lang, string>;
 }
 
 export const PROJECTS: ProjectCard[] = [
-  {
-    slug: "schema-cli",
-    name: "mapcidade-schema-cli",
-    tag: "CLI",
-    problem: {
-      en: "Batch-registers a new attribute (column + metadata + permission) across dozens of map layers in one dry-run-safe pass, instead of doing it by hand, layer by layer.",
-      pt: "Cadastra um atributo novo (coluna + metadados + permissão) em dezenas de camadas de mapa de uma vez, em modo dry-run seguro, em vez de fazer isso à mão, camada por camada.",
-    },
-    stack: ["TypeScript", "node:sqlite", "zod"],
-    repoUrl: "https://github.com/kaogsk/mapcidade-schema-cli",
-    demoUrl: null,
-    demoLabel: { en: "clone & run", pt: "clone & rode" },
-  },
-  {
-    slug: "style-converter",
-    name: "mapcidade-style-converter",
-    tag: "CLI",
-    problem: {
-      en: "Converts a QGIS categorized map style into GeoServer-ready SLD/XML — no more hand-translating colors and filters symbol by symbol.",
-      pt: "Converte um estilo de mapa categorizado do QGIS em SLD/XML pronto pro GeoServer — sem traduzir cor e filtro à mão, símbolo por símbolo.",
-    },
-    stack: ["TypeScript", "fast-xml-parser"],
-    repoUrl: "https://github.com/kaogsk/mapcidade-style-converter",
-    demoUrl: null,
-    demoLabel: { en: "clone & run", pt: "clone & rode" },
-  },
-  {
-    slug: "form-engine",
-    name: "mapcidade-form-engine",
-    tag: "Web",
-    problem: {
-      en: "Renders and validates a full data-entry form purely from a JSON schema — a new form is a new JSON file, never a new page.",
-      pt: "Renderiza e valida um formulário inteiro só a partir de um JSON schema — um formulário novo é um arquivo JSON novo, nunca uma página nova.",
-    },
-    stack: ["TypeScript", "Express 5", "node:sqlite"],
-    repoUrl: "https://github.com/kaogsk/mapcidade-form-engine",
-    demoUrl: "https://mapcidade-form-engine.vercel.app/forms/urban_tree",
-    demoLabel: { en: "live demo", pt: "demo ao vivo" },
-  },
   {
     slug: "uptime-monitor",
     name: "mapcidade-uptime-monitor",
@@ -65,32 +26,6 @@ export const PROJECTS: ProjectCard[] = [
     demoLabel: { en: "live demo", pt: "demo ao vivo" },
   },
   {
-    slug: "georef-tool",
-    name: "mapcidade-georef-tool",
-    tag: "CLI + Web",
-    problem: {
-      en: "Reads a scanned map image's pixel size straight off its PNG header and turns its world file into ready-to-review PostGIS placement SQL.",
-      pt: "Lê o tamanho em pixel de uma imagem de mapa escaneada direto do cabeçalho do PNG e transforma o world file em SQL de posicionamento PostGIS pronto pra revisão.",
-    },
-    stack: ["TypeScript", "Express 5"],
-    repoUrl: "https://github.com/kaogsk/mapcidade-georef-tool",
-    demoUrl: "https://mapcidade-georef-tool.vercel.app",
-    demoLabel: { en: "live demo", pt: "demo ao vivo" },
-  },
-  {
-    slug: "ops-dashboard",
-    name: "mapcidade-ops-dashboard",
-    tag: "Web",
-    problem: {
-      en: "Turns a raw support-ticket feed into SLA breaches, unassigned backlog, category volume, and cycle time — four pure functions, zero spreadsheet.",
-      pt: "Transforma uma lista crua de chamados em violação de SLA, backlog sem dono, volume por categoria e tempo de ciclo — quatro funções puras, zero planilha.",
-    },
-    stack: ["TypeScript", "Express 5"],
-    repoUrl: "https://github.com/kaogsk/mapcidade-ops-dashboard",
-    demoUrl: "https://mapcidade-ops-dashboard.vercel.app",
-    demoLabel: { en: "live demo", pt: "demo ao vivo" },
-  },
-  {
     slug: "lockdown-audit",
     name: "mapcidade-lockdown-audit",
     tag: "CLI",
@@ -100,19 +35,6 @@ export const PROJECTS: ProjectCard[] = [
     },
     stack: ["TypeScript", "node:sqlite"],
     repoUrl: "https://github.com/kaogsk/mapcidade-lockdown-audit",
-    demoUrl: null,
-    demoLabel: { en: "clone & run", pt: "clone & rode" },
-  },
-  {
-    slug: "metadata-publisher",
-    name: "mapcidade-metadata-publisher",
-    tag: "Web",
-    problem: {
-      en: "Creates, copies, and transfers map themes across profiles and databases through a two-step dry-run gate — a real write only fires after an explicit confirmation phrase.",
-      pt: "Cria, copia e transfere temas de mapa entre perfis e bancos por um gate de confirmação em duas etapas — a escrita real só acontece depois de uma frase de confirmação explícita.",
-    },
-    stack: ["Next.js 14", "Express 5", "zod", "pg"],
-    repoUrl: "https://github.com/kaogsk/mapcidade-metadata-publisher",
     demoUrl: null,
     demoLabel: { en: "clone & run", pt: "clone & rode" },
   },
@@ -130,64 +52,12 @@ export const PROJECTS: ProjectCard[] = [
     demoLabel: { en: "clone & run", pt: "clone & rode" },
   },
   {
-    slug: "mobile-restore",
-    name: "mapcidade-mobile-restore",
-    tag: "CLI + Web",
-    problem: {
-      en: "Rebuilds database rows and re-uploads attachments from a mobile app's local backup — dry-run by default, a real write requires an explicit confirmation phrase.",
-      pt: "Reconstrói linhas de banco e reenvia anexos a partir de um backup local do app mobile — dry-run por padrão, escrita real exige frase de confirmação explícita.",
-    },
-    stack: ["TypeScript", "Express 5", "ssh2-sftp-client"],
-    repoUrl: "https://github.com/kaogsk/mapcidade-mobile-restore",
-    demoUrl: null,
-    demoLabel: { en: "clone & run", pt: "clone & rode" },
-  },
-  {
-    slug: "form-schema-gen",
-    name: "mapcidade-form-schema-gen",
-    tag: "Web",
-    problem: {
-      en: "Reads a table's data dictionary and infers each field's UI type from its attribute-name prefix (date, ID number, currency, ...), producing a ready-to-use form schema.",
-      pt: "Lê o dicionário de dados de uma tabela e infere o tipo de UI de cada campo pelo prefixo do nome do atributo (data, documento, monetário...), gerando um schema de formulário pronto pra uso.",
-    },
-    stack: ["TypeScript", "Express 5"],
-    repoUrl: "https://github.com/kaogsk/mapcidade-form-schema-gen",
-    demoUrl: null,
-    demoLabel: { en: "clone & run", pt: "clone & rode" },
-  },
-  {
-    slug: "certificate-extractor",
-    name: "mapcidade-certificate-extractor",
-    tag: "CLI",
-    problem: {
-      en: "Extracts a municipal certificate's PDF/DOCX content into structured JSON — block-level text merge with a confidence score, plus image, table, and font extraction.",
-      pt: "Extrai o conteúdo de uma certidão municipal em PDF/DOCX pra JSON estruturado — merge de texto em nível de bloco com score de confiança, mais extração de imagem, tabela e fonte.",
-    },
-    stack: ["Python", "PyMuPDF", "pdfplumber", "python-docx"],
-    repoUrl: "https://github.com/kaogsk/mapcidade-certificate-extractor",
-    demoUrl: null,
-    demoLabel: { en: "clone & run", pt: "clone & rode" },
-  },
-  {
-    slug: "map-hierarchy-validator",
-    name: "mapcidade-map-hierarchy-validator",
-    tag: "Web",
-    problem: {
-      en: "Runs 7 integrity checks on a profile's map hierarchy — cycles, orphan parents, cross-profile references, duplicates — and prints the reorder fix as reviewable SQL, never writes on its own.",
-      pt: "Roda 7 checagens de integridade na hierarquia de mapa de um perfil — ciclo, pai órfão, referência cruzada entre perfis, duplicado — e imprime a correção de ordem como SQL revisável, nunca escreve sozinho.",
-    },
-    stack: ["TypeScript", "Express 5"],
-    repoUrl: "https://github.com/kaogsk/mapcidade-map-hierarchy-validator",
-    demoUrl: null,
-    demoLabel: { en: "clone & run", pt: "clone & rode" },
-  },
-  {
     slug: "report-builder",
     name: "mapcidade-report-builder",
     tag: "Web",
     problem: {
       en: "Walks a 4-step guided flow to generate one of four ready-to-send access-report texts per city, read-only end to end.",
-      pt: "Guia um fluxo de 4 passos pra gerar um de quatro tipos de relatório de acesso pronto pra enviar, por município, somente leitura do início ao fim.",
+      pt: "Guia um fluxo de 4 passos para escolher e gerar um relatório de acesso pronto para envio por município, com acesso somente leitura do início ao fim.",
     },
     stack: ["TypeScript", "Express 5", "nunjucks"],
     repoUrl: "https://github.com/kaogsk/mapcidade-report-builder",
@@ -195,17 +65,108 @@ export const PROJECTS: ProjectCard[] = [
     demoLabel: { en: "clone & run", pt: "clone & rode" },
   },
   {
-    slug: "spreadsheet-reconciler",
-    name: "mapcidade-spreadsheet-reconciler",
-    tag: "CLI",
+    slug: "support-analytics",
+    name: "mapcidade-support-analytics",
+    tag: "Web",
     problem: {
-      en: "Compares a client spreadsheet against a municipal database table field by field and generates the UPDATE SQL needed to reconcile the differences.",
-      pt: "Compara uma planilha de cliente contra uma tabela do banco municipal campo a campo e gera o UPDATE necessário pra reconciliar as diferenças.",
+      en: "Reconciles recent and archived support tickets to calculate SLA and workload metrics per analyst.",
+      pt: "Reconcilia chamados de suporte recentes e arquivados para calcular indicadores de SLA e carga de trabalho por analista.",
     },
-    stack: ["Python", "pandas", "openpyxl"],
-    repoUrl: "https://github.com/kaogsk/mapcidade-spreadsheet-reconciler",
+    stack: ["TypeScript", "Express 5", "Next.js", "SQLite", "OData"],
+    repoUrl: null,
     demoUrl: null,
-    demoLabel: { en: "clone & run", pt: "clone & rode" },
+    demoLabel: { en: "local demo", pt: "demo local" },
+  },
+  {
+    slug: "queue-radar",
+    name: "mapcidade-queue-radar",
+    tag: "Web",
+    problem: {
+      en: "Prioritizes active support tickets by business-hours age, status, and assignment so the team can spot where to act.",
+      pt: "Prioriza chamados ativos por tempo em horário útil, status e responsável para ajudar a equipe a identificar onde agir.",
+    },
+    stack: ["TypeScript", "Express 5", "OData", "Vitest"],
+    repoUrl: null,
+    demoUrl: null,
+    demoLabel: { en: "local demo", pt: "demo local" },
+  },
+  {
+    slug: "contract-report",
+    name: "mapcidade-contract-report",
+    tag: "CLI + Web",
+    problem: {
+      en: "Collects support, access, and infrastructure metrics in parallel and turns the reviewed results into a DOCX contract report.",
+      pt: "Coleta em paralelo métricas de suporte, acesso e infraestrutura e gera um relatório contratual DOCX após a revisão.",
+    },
+    stack: ["TypeScript", "Express 5", "SQLite", "JSZip"],
+    repoUrl: null,
+    demoUrl: null,
+    demoLabel: { en: "local demo", pt: "demo local" },
+  },
+  {
+    slug: "change-monitor-bi",
+    name: "mapcidade-change-monitor-bi",
+    tag: "CLI + Web",
+    problem: {
+      en: "Consolidates GIS change alerts, review activity, and project deadlines across municipal databases.",
+      pt: "Consolida alertas de alterações no GIS, atividade de análise e prazos de projetos de vários bancos municipais.",
+    },
+    stack: ["TypeScript", "Express 5", "SQLite", "SQL"],
+    repoUrl: null,
+    demoUrl: null,
+    demoLabel: { en: "local demo", pt: "demo local" },
+  },
+  {
+    slug: "usage-bi",
+    name: "mapcidade-usage-bi",
+    tag: "CLI + Web",
+    problem: {
+      en: "Loads usage events from multiple municipal databases into a reporting store with historical rollups.",
+      pt: "Carrega eventos de uso de vários bancos municipais em uma base analítica com agregações históricas.",
+    },
+    stack: ["TypeScript", "Express 5", "SQLite", "Zod"],
+    repoUrl: null,
+    demoUrl: null,
+    demoLabel: { en: "local demo", pt: "demo local" },
+  },
+  {
+    slug: "cs-hub",
+    name: "mapcidade-cs-hub",
+    tag: "Web",
+    problem: {
+      en: "Brings contracts, service hours, and account health into one workspace for Customer Success teams.",
+      pt: "Reúne contratos, horas de atendimento e indicadores de saúde da carteira em um painel para Customer Success.",
+    },
+    stack: ["Python", "FastAPI", "SQLite"],
+    repoUrl: null,
+    demoUrl: null,
+    demoLabel: { en: "local demo", pt: "demo local" },
+  },
+  {
+    slug: "ticket-router",
+    name: "mapcidade-ticket-router",
+    tag: "Web",
+    problem: {
+      en: "Combines rules, full-text search, and a fallback classifier to route support tickets and surface cases for human review.",
+      pt: "Combina regras, busca textual e um classificador de fallback para encaminhar chamados e sinalizar casos para revisão humana.",
+    },
+    stack: ["TypeScript", "Express 5", "SQLite FTS5"],
+    repoUrl: null,
+    demoUrl: null,
+    demoLabel: { en: "local demo", pt: "demo local" },
+  },
+  {
+    slug: "training-track",
+    name: "mapcidade-training-track",
+    tag: "CLI + Web",
+    problem: {
+      en: "Tracks lesson progress and uses practical exercises to teach municipal GIS workflows.",
+      pt: "Acompanha o progresso nas aulas e usa exercícios práticos para ensinar fluxos de trabalho de GIS municipal.",
+    },
+    stack: ["TypeScript", "Express 5", "SQLite", "Zod"],
+    repoUrl: null,
+    demoUrl: null,
+    demoLabel: { en: "local demo", pt: "demo local" },
   },
 ];
 
@@ -216,8 +177,8 @@ export const COPY = {
     heroBody:
       "Software engineer focused on AI-assisted automation for legacy systems and operational observability. Everything below is a from-scratch, anonymized reconstruction of real production architecture — fictional data only, real engineering.",
     heroCta: "See the systems ↓",
-    aiSectionLabel: "AI IN PRODUCTION",
-    aiSectionTitle: "Three systems, three different jobs for AI",
+    aiSectionLabel: "AUTOMATION & AI",
+    aiSectionTitle: "Ticket triage and incident investigation",
     aiCards: [
       {
         title: "Ticket classifier",
@@ -225,27 +186,22 @@ export const COPY = {
         body: "A rules + full-text search layer resolves most tickets on its own. A model is only called on the cases hard enough to need one. Every classification still passes human review before it's final.",
       },
       {
-        title: "Uptime monitor with root-cause draft",
-        stat: "93 environments watched in real time",
-        body: "Detects an outage, collects evidence through read-only access, and drafts a root-cause report following the same investigation script the on-call team already uses — before anyone opens a terminal.",
-      },
-      {
-        title: "Multi-agent dev orchestrator",
-        stat: "built for my own workflow, adopted by the team",
-        body: "Runs multiple coding agents in parallel, each isolated in its own workspace, with a shared task board and chat so they don't step on each other.",
+        title: "Uptime monitor with root-cause pipeline",
+        stat: "123 environments watched in real time",
+        body: "Detects an outage and collects the evidence through read-only access the moment it happens, before anyone opens a terminal. A built-in stage feeds that evidence to a model to draft the root-cause report along the on-call team's own investigation script; in production it currently runs collection-only, with the drafting stage switched off.",
       },
     ],
     migrationLabel: "MIGRATION & ENGINEERING DISCIPLINE",
     migrationTitle: "11+ legacy tools moved to a modern stack — none of it \"looked done\"",
     migrationBody:
       "Every migration was only called complete after its output was diffed line-by-line or byte-by-byte against the system it replaced — never after it merely appeared to work. That discipline produced 400+ automated tests across the migrated tools, and it's the same rule this whole portfolio follows: dry-run by default, explicit confirmation before any destructive write, evidence before claims.",
-    projectsLabel: "15 SYSTEMS, REBUILT CLEAN",
+    projectsLabel: `${PROJECTS.length} PRODUCTION SYSTEMS, REBUILT FROM SCRATCH`,
     projectsTitle: "Pick one and look inside",
     projectsSub:
-      "Each repo below is a from-scratch, fictional-data reconstruction of a real internal tool's architecture — same design decisions, none of the client data.",
+      "Every system below is running in production today. Each repo is a from-scratch, fictional-data reconstruction of its architecture — same design decisions, none of the client data.",
     codeLink: "code",
     stackLabel: "STACK",
-    footerNote: "Built and documented with Claude Code. Fictional data throughout — MapCidade is not a real place.",
+    footerNote: "Built and documented with Claude Code and Codex. All MapCidade demo data is fictional.",
   },
   pt: {
     kicker: "PORTFOLIO — SISTEMAS ANONIMIZADOS",
@@ -253,8 +209,8 @@ export const COPY = {
     heroBody:
       "Engenheiro de software focado em automação com IA pra sistemas legados e observabilidade operacional. Tudo abaixo é uma reconstrução anonimizada, feita do zero, de arquitetura real de produção — dado fictício, engenharia real.",
     heroCta: "Ver os sistemas ↓",
-    aiSectionLabel: "IA EM PRODUÇÃO",
-    aiSectionTitle: "Três sistemas, três jeitos diferentes de usar IA",
+    aiSectionLabel: "AUTOMAÇÃO E IA",
+    aiSectionTitle: "Triagem de chamados e investigação de incidentes",
     aiCards: [
       {
         title: "Classificador de chamado",
@@ -262,26 +218,21 @@ export const COPY = {
         body: "Uma camada de regras + busca full-text resolve a maioria dos chamados sozinha. Um modelo só é acionado nos casos difíceis o suficiente pra precisar de um. Toda classificação ainda passa por revisão humana antes de virar decisão final.",
       },
       {
-        title: "Monitor de disponibilidade com rascunho de causa raiz",
-        stat: "93 ambientes observados em tempo real",
-        body: "Detecta uma queda, coleta evidência por acesso somente-leitura, e rascunha um relatório de causa raiz seguindo o mesmo roteiro de investigação que a equipe de plantão já usa — antes de alguém abrir um terminal.",
-      },
-      {
-        title: "Orquestrador de agentes de código",
-        stat: "criado pro meu próprio fluxo, adotado pelo time",
-        body: "Roda vários agentes de código em paralelo, cada um isolado no próprio ambiente de trabalho, com quadro de tarefas e chat compartilhado pra não pisarem um no outro.",
+        title: "Monitor de disponibilidade com pipeline de causa raiz",
+        stat: "123 ambientes observados em tempo real",
+        body: "Detecta uma queda e coleta a evidência por acesso somente-leitura na hora em que ela acontece, antes de alguém abrir um terminal. Uma etapa embutida entrega essa evidência a um modelo pra rascunhar o relatório de causa raiz no roteiro de investigação da equipe de plantão; em produção, hoje roda só a coleta, com a etapa de rascunho desligada.",
       },
     ],
     migrationLabel: "MIGRAÇÃO E DISCIPLINA DE ENGENHARIA",
     migrationTitle: "11+ ferramentas legadas migradas — nenhuma \"parecia estar pronta\"",
     migrationBody:
       "Toda migração só foi considerada pronta depois de comparar a saída, linha a linha ou byte a byte, contra o sistema que ela substituiu — nunca só porque parecia funcionar. Essa disciplina gerou mais de 400 testes automatizados nas ferramentas migradas, e é a mesma regra que esse portfolio inteiro segue: dry-run por padrão, confirmação explícita antes de qualquer escrita destrutiva, evidência antes de afirmação.",
-    projectsLabel: "15 SISTEMAS, RECONSTRUÍDOS DO ZERO",
+    projectsLabel: `${PROJECTS.length} SISTEMAS EM PRODUÇÃO, RECONSTRUÍDOS DO ZERO`,
     projectsTitle: "Escolha um e olhe por dentro",
     projectsSub:
-      "Cada repo abaixo é uma reconstrução anonimizada, com dado fictício, da arquitetura de uma ferramenta interna real — mesma decisão técnica, nenhum dado de cliente.",
+      "Todos os sistemas abaixo estão em produção hoje. Cada repo é uma reconstrução anonimizada, com dado fictício, da arquitetura dele — mesma decisão técnica, nenhum dado de cliente.",
     codeLink: "código",
     stackLabel: "STACK",
-    footerNote: "Construído e documentado com Claude Code. Dado fictício do início ao fim — MapCidade não é um lugar real.",
+    footerNote: "Construído e documentado com Claude Code e Codex. Todas as demonstrações do MapCidade usam dados fictícios.",
   },
 } as const;

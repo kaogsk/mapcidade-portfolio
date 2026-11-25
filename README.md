@@ -1,6 +1,6 @@
 # MapCidade — Systems Portfolio
 
-> Portfolio site (Next.js, bilingual EN/PT) presenting 6 anonymized system reconstructions and 3 generalized production-AI case studies. Fictional data throughout — "MapCidade" is not a real place, and no employer, client, or city is named.
+> Bilingual EN/PT portfolio built with Next.js. It presents anonymized reconstructions of production systems and case studies in support automation and incident investigation. All demos use fictional MapCidade data.
 
 ## English
 

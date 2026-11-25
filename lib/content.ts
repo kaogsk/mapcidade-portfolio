@@ -1,238 +1,241 @@
-export type Lang = "en" | "pt";
+export type Lang = "pt" | "en";
+type Translation = Record<Lang, string>;
 
-export interface ProjectCard {
+export const AREAS = {
+  "operations": {
+    "pt": "Operações e suporte",
+    "en": "Operations and support"
+  },
+  "data": {
+    "pt": "Dados e auditoria",
+    "en": "Data and auditing"
+  },
+  "delivery": {
+    "pt": "Relatórios e fluxos de trabalho",
+    "en": "Reporting and workflows"
+  }
+} as const;
+
+interface Project {
   slug: string;
-  name: string;
-  tag: string;
-  problem: Record<Lang, string>;
+  area: keyof typeof AREAS;
+  format: string;
+  title: Translation;
+  problem: Translation;
+  solution: Translation;
   stack: string[];
-  repoUrl: string | null;
-  demoUrl: string | null;
-  demoLabel: Record<Lang, string>;
+  demoUrl?: string;
 }
 
-export const PROJECTS: ProjectCard[] = [
+export const PROJECTS: Project[] = [
   {
     slug: "uptime-monitor",
-    name: "mapcidade-uptime-monitor",
-    tag: "Web",
+    area: "operations",
+    format: "Web",
+    title: { pt: "Monitor de disponibilidade", en: "Uptime monitoring" },
     problem: {
-      en: "Watches a set of services and fires exactly one alert when one crosses into an outage — not once per failed check for the entire length of it.",
-      pt: "Observa um conjunto de serviços e dispara exatamente um alerta quando um deles cai — não um alerta por falha durante toda a queda.",
+      pt: "Falhas consecutivas geravam notificações repetidas, dificultando a triagem de incidentes.",
+      en: "Repeated failed checks generated duplicate alerts, making incidents harder to triage.",
+    },
+    solution: {
+      pt: "Uma máquina de estados por serviço processa as verificações. Após falhas consecutivas, registra evidências e alerta na queda e na recuperação.",
+      en: "A state machine per service processes health checks. Consecutive failures trigger evidence capture and an outage alert, with a separate recovery alert.",
     },
     stack: ["TypeScript", "Express 5"],
-    repoUrl: "https://github.com/kaogsk/mapcidade-uptime-monitor",
     demoUrl: "https://mapcidade-uptime-monitor.vercel.app",
-    demoLabel: { en: "live demo", pt: "demo ao vivo" },
-  },
-  {
-    slug: "lockdown-audit",
-    name: "mapcidade-lockdown-audit",
-    tag: "CLI",
-    problem: {
-      en: "Audits a municipal database against 10 read-only lockdown rules — misconfigured tile layers, missing spatial indexes, invalid geometry, suspicious external URLs — and prints the fix as reviewable SQL, never runs it.",
-      pt: "Audita um banco municipal contra 10 regras de travamento somente-leitura — camada de tile mal configurada, índice espacial faltando, geometria inválida, URL externa suspeita — e imprime a correção como SQL revisável, nunca roda sozinho.",
-    },
-    stack: ["TypeScript", "node:sqlite"],
-    repoUrl: "https://github.com/kaogsk/mapcidade-lockdown-audit",
-    demoUrl: null,
-    demoLabel: { en: "clone & run", pt: "clone & rode" },
-  },
-  {
-    slug: "access-log-viewer",
-    name: "mapcidade-access-log-viewer",
-    tag: "Web",
-    problem: {
-      en: "Turns raw per-collaborator access and edit logs into a manager-scoped audit view with XLSX export — each manager only ever sees their own team's activity.",
-      pt: "Transforma log cru de acesso e edição por colaborador numa visão de auditoria por gestor, com export XLSX — cada gestor só vê o próprio time.",
-    },
-    stack: ["TypeScript", "Express 5", "nunjucks", "SheetJS"],
-    repoUrl: "https://github.com/kaogsk/mapcidade-access-log-viewer",
-    demoUrl: null,
-    demoLabel: { en: "clone & run", pt: "clone & rode" },
-  },
-  {
-    slug: "report-builder",
-    name: "mapcidade-report-builder",
-    tag: "Web",
-    problem: {
-      en: "Walks a 4-step guided flow to generate one of four ready-to-send access-report texts per city, read-only end to end.",
-      pt: "Guia um fluxo de 4 passos para escolher e gerar um relatório de acesso pronto para envio por município, com acesso somente leitura do início ao fim.",
-    },
-    stack: ["TypeScript", "Express 5", "nunjucks"],
-    repoUrl: "https://github.com/kaogsk/mapcidade-report-builder",
-    demoUrl: null,
-    demoLabel: { en: "clone & run", pt: "clone & rode" },
-  },
-  {
-    slug: "support-analytics",
-    name: "mapcidade-support-analytics",
-    tag: "Web",
-    problem: {
-      en: "Reconciles recent and archived support tickets to calculate SLA and workload metrics per analyst.",
-      pt: "Reconcilia chamados de suporte recentes e arquivados para calcular indicadores de SLA e carga de trabalho por analista.",
-    },
-    stack: ["TypeScript", "Express 5", "Next.js", "SQLite", "OData"],
-    repoUrl: "https://github.com/kaogsk/mapcidade-support-analytics",
-    demoUrl: null,
-    demoLabel: { en: "clone & run", pt: "clone & rode" },
-  },
-  {
-    slug: "queue-radar",
-    name: "mapcidade-queue-radar",
-    tag: "Web",
-    problem: {
-      en: "Prioritizes active support tickets by business-hours age, status, and assignment so the team can spot where to act.",
-      pt: "Prioriza chamados ativos por tempo em horário útil, status e responsável para ajudar a equipe a identificar onde agir.",
-    },
-    stack: ["TypeScript", "Express 5", "OData", "Vitest"],
-    repoUrl: "https://github.com/kaogsk/mapcidade-queue-radar",
-    demoUrl: null,
-    demoLabel: { en: "clone & run", pt: "clone & rode" },
-  },
-  {
-    slug: "contract-report",
-    name: "mapcidade-contract-report",
-    tag: "CLI + Web",
-    problem: {
-      en: "Collects support, access, and infrastructure metrics in parallel and turns the reviewed results into a DOCX contract report.",
-      pt: "Coleta em paralelo métricas de suporte, acesso e infraestrutura e gera um relatório contratual DOCX após a revisão.",
-    },
-    stack: ["TypeScript", "Express 5", "SQLite", "JSZip"],
-    repoUrl: "https://github.com/kaogsk/mapcidade-contract-report",
-    demoUrl: null,
-    demoLabel: { en: "clone & run", pt: "clone & rode" },
-  },
-  {
-    slug: "change-monitor-bi",
-    name: "mapcidade-change-monitor-bi",
-    tag: "CLI + Web",
-    problem: {
-      en: "Consolidates GIS change alerts, review activity, and project deadlines across municipal databases.",
-      pt: "Consolida alertas de alterações no GIS, atividade de análise e prazos de projetos de vários bancos municipais.",
-    },
-    stack: ["TypeScript", "Express 5", "SQLite", "SQL"],
-    repoUrl: "https://github.com/kaogsk/mapcidade-change-monitor-bi",
-    demoUrl: null,
-    demoLabel: { en: "clone & run", pt: "clone & rode" },
-  },
-  {
-    slug: "usage-bi",
-    name: "mapcidade-usage-bi",
-    tag: "CLI + Web",
-    problem: {
-      en: "Loads usage events from multiple municipal databases into a reporting store with historical rollups.",
-      pt: "Carrega eventos de uso de vários bancos municipais em uma base analítica com agregações históricas.",
-    },
-    stack: ["TypeScript", "Express 5", "SQLite", "Zod"],
-    repoUrl: "https://github.com/kaogsk/mapcidade-usage-bi",
-    demoUrl: null,
-    demoLabel: { en: "clone & run", pt: "clone & rode" },
-  },
-  {
-    slug: "cs-hub",
-    name: "mapcidade-cs-hub",
-    tag: "Web",
-    problem: {
-      en: "Brings contracts, service hours, and account health into one workspace for Customer Success teams.",
-      pt: "Reúne contratos, horas de atendimento e indicadores de saúde da carteira em um painel para Customer Success.",
-    },
-    stack: ["Python", "FastAPI", "SQLite"],
-    repoUrl: "https://github.com/kaogsk/mapcidade-cs-hub",
-    demoUrl: null,
-    demoLabel: { en: "clone & run", pt: "clone & rode" },
   },
   {
     slug: "ticket-router",
-    name: "mapcidade-ticket-router",
-    tag: "Web",
+    area: "operations",
+    format: "Web",
+    title: { pt: "Triagem de chamados", en: "Ticket routing" },
     problem: {
-      en: "Combines rules, full-text search, and a fallback classifier to route support tickets and surface cases for human review.",
-      pt: "Combina regras, busca textual e um classificador de fallback para encaminhar chamados e sinalizar casos para revisão humana.",
+      pt: "A classificação manual de chamados atrasava o encaminhamento para o time responsável.",
+      en: "Manual ticket classification delayed routing to the right team.",
+    },
+    solution: {
+      pt: "Aplica regras e busca textual com SQLite FTS5. Usa um classificador nos casos restantes e encaminha decisões para revisão humana.",
+      en: "Applies rules and SQLite FTS5 search, uses a fallback classifier, and surfaces decisions for human review.",
     },
     stack: ["TypeScript", "Express 5", "SQLite FTS5"],
-    repoUrl: "https://github.com/kaogsk/mapcidade-ticket-router",
-    demoUrl: null,
-    demoLabel: { en: "clone & run", pt: "clone & rode" },
+  },
+  {
+    slug: "support-analytics",
+    area: "operations",
+    format: "Web",
+    title: { pt: "Indicadores de suporte", en: "Support analytics" },
+    problem: {
+      pt: "Chamados recentes e arquivados vinham de fontes separadas, o que dificultava calcular SLA e volume por analista.",
+      en: "Recent and archived tickets came from separate sources, making SLA and workload metrics difficult to calculate.",
+    },
+    solution: {
+      pt: "Sincroniza os dois conjuntos via OData, reconcilia os registros em SQLite e apresenta os indicadores em um painel Next.js.",
+      en: "Syncs both sets via OData, reconciles records in SQLite, and displays the metrics in a Next.js dashboard.",
+    },
+    stack: ["TypeScript", "Express 5", "Next.js", "SQLite", "OData"],
+  },
+  {
+    slug: "queue-radar",
+    area: "operations",
+    format: "Web",
+    title: { pt: "Radar de fila", en: "Queue radar" },
+    problem: {
+      pt: "A equipe precisava localizar chamados parados e identificar quais prazos exigiam atenção.",
+      en: "The team needed to find stalled tickets and identify deadlines that required attention.",
+    },
+    solution: {
+      pt: "Sincroniza a fila ativa e aplica regras de prioridade por status, responsável e tempo em horário útil.",
+      en: "Syncs the active queue and applies priority rules based on status, assignee, and elapsed business hours.",
+    },
+    stack: ["TypeScript", "Express 5", "OData", "Vitest"],
+  },
+  {
+    slug: "usage-bi",
+    area: "data",
+    format: "CLI + Web",
+    title: { pt: "Painel de uso", en: "Usage analytics" },
+    problem: {
+      pt: "Os registros de uso estavam distribuídos em bancos municipais, dificultando comparar períodos.",
+      en: "Usage records were spread across municipal databases, making periods hard to compare.",
+    },
+    solution: {
+      pt: "Importa o histórico, atualiza os dados de forma incremental e consolida métricas mensais em uma base analítica.",
+      en: "Imports historical records, loads new data incrementally, and consolidates monthly metrics in a reporting database.",
+    },
+    stack: ["TypeScript", "Express 5", "SQLite", "Zod"],
+  },
+  {
+    slug: "change-monitor-bi",
+    area: "data",
+    format: "CLI + Web",
+    title: { pt: "Monitoramento de alterações GIS", en: "GIS change monitoring" },
+    problem: {
+      pt: "Alertas, edições e prazos eram acompanhados em bases separadas.",
+      en: "Alerts, edits, and deadlines were tracked across separate databases.",
+    },
+    solution: {
+      pt: "Consolida as fontes em SQLite, mantém snapshots diários e reaproveita a última carga válida quando uma atualização falha.",
+      en: "Consolidates sources in SQLite, stores daily snapshots, and keeps the last valid dataset when a refresh fails.",
+    },
+    stack: ["TypeScript", "Express 5", "SQLite", "SQL"],
+  },
+  {
+    slug: "lockdown-audit",
+    area: "data",
+    format: "CLI",
+    title: { pt: "Auditoria de configuração GIS", en: "GIS configuration audit" },
+    problem: {
+      pt: "Problemas de configuração, índices e geometrias exigiam verificações manuais no banco.",
+      en: "Configuration, index, and geometry issues required manual database checks.",
+    },
+    solution: {
+      pt: "Executa regras de auditoria em modo somente leitura e apresenta correções em SQL para revisão.",
+      en: "Runs read-only audit rules and proposes SQL fixes for review.",
+    },
+    stack: ["TypeScript", "SQLite"],
+  },
+  {
+    slug: "access-log-viewer",
+    area: "data",
+    format: "Web",
+    title: { pt: "Auditoria de acessos e edições", en: "Access and edit auditing" },
+    problem: {
+      pt: "Gestores precisavam consultar registros de atividade e exportar apenas os dados de sua equipe.",
+      en: "Managers needed to review and export activity records scoped to their own teams.",
+    },
+    solution: {
+      pt: "Aplica o recorte por equipe no servidor, organiza os registros em uma interface e exporta o resultado em XLSX.",
+      en: "Enforces team scope on the server, presents the records in a web interface, and exports the results as XLSX.",
+    },
+    stack: ["TypeScript", "Express 5", "Nunjucks", "SheetJS"],
+  },
+  {
+    slug: "contract-report",
+    area: "delivery",
+    format: "CLI + Web",
+    title: { pt: "Relatórios de contrato", en: "Contract reporting" },
+    problem: {
+      pt: "Relatórios contratuais exigiam reunir manualmente métricas de uso, infraestrutura e suporte.",
+      en: "Contract reports required manually gathering usage, infrastructure, and support metrics.",
+    },
+    solution: {
+      pt: "Consulta as fontes em paralelo com prazos independentes, apresenta as falhas para revisão e gera o documento em DOCX.",
+      en: "Queries sources in parallel with independent timeouts, surfaces failures for review, and generates the DOCX report.",
+    },
+    stack: ["TypeScript", "Express 5", "SQLite", "JSZip"],
+  },
+  {
+    slug: "cs-hub",
+    area: "delivery",
+    format: "Web",
+    title: { pt: "Painel de Customer Success", en: "Customer Success dashboard" },
+    problem: {
+      pt: "A equipe precisava cruzar contratos, horas de atendimento e indicadores para acompanhar a carteira.",
+      en: "The team needed to cross-reference contracts, service hours, and account indicators.",
+    },
+    solution: {
+      pt: "Reúne as fontes em uma API FastAPI e calcula um indicador de saúde por conta, com informações sobre a cobertura dos dados.",
+      en: "Combines the sources behind a FastAPI API and calculates account health scores with data coverage information.",
+    },
+    stack: ["Python", "FastAPI", "SQLite"],
+  },
+  {
+    slug: "report-builder",
+    area: "delivery",
+    format: "Web",
+    title: { pt: "Relatórios de acesso", en: "Access report builder" },
+    problem: {
+      pt: "A preparação manual dos relatórios de acesso repetia as mesmas consultas e etapas de formatação.",
+      en: "Preparing access reports manually repeated the same lookups and formatting steps.",
+    },
+    solution: {
+      pt: "Orienta a seleção do município e do tipo de relatório, consulta em modo somente leitura e devolve o texto formatado.",
+      en: "Guides municipality and report type selection, runs read-only queries, and returns formatted text.",
+    },
+    stack: ["TypeScript", "Express 5", "Nunjucks"],
   },
   {
     slug: "training-track",
-    name: "mapcidade-training-track",
-    tag: "CLI + Web",
+    area: "delivery",
+    format: "CLI + Web",
+    title: { pt: "Trilha de treinamento GIS", en: "GIS training track" },
     problem: {
-      en: "Tracks lesson progress and uses practical exercises to teach municipal GIS workflows.",
-      pt: "Acompanha o progresso nas aulas e usa exercícios práticos para ensinar fluxos de trabalho de GIS municipal.",
+      pt: "A equipe precisava padronizar o treinamento e acompanhar o progresso de cada pessoa.",
+      en: "The team needed to standardize onboarding and track each learner’s progress.",
+    },
+    solution: {
+      pt: "Organiza aulas e exercícios em conteúdo estruturado, registra o progresso em SQLite e oferece uma visão para gestores.",
+      en: "Organizes lessons and exercises as structured content, records progress in SQLite, and provides a manager view.",
     },
     stack: ["TypeScript", "Express 5", "SQLite", "Zod"],
-    repoUrl: "https://github.com/kaogsk/mapcidade-training-track",
-    demoUrl: null,
-    demoLabel: { en: "clone & run", pt: "clone & rode" },
   },
 ];
 
 export const COPY = {
-  en: {
-    kicker: "PORTFOLIO — ANONYMIZED SYSTEMS",
-    heroTitle: "I build the tools that make broken things visible before they get expensive.",
-    heroBody:
-      "Software engineer focused on AI-assisted automation for legacy systems and operational observability. Everything below is a from-scratch, anonymized reconstruction of real production architecture — fictional data only, real engineering.",
-    heroCta: "See the systems ↓",
-    aiSectionLabel: "AUTOMATION & AI",
-    aiSectionTitle: "Ticket triage and incident investigation",
-    aiCards: [
-      {
-        title: "Ticket classifier",
-        stat: "2,256 tickets classified · $4.11 total API cost",
-        body: "A rules + full-text search layer resolves most tickets on its own. A model is only called on the cases hard enough to need one. Every classification still passes human review before it's final.",
-      },
-      {
-        title: "Uptime monitor with root-cause pipeline",
-        stat: "123 environments watched in real time",
-        body: "Detects an outage and collects the evidence through read-only access the moment it happens, before anyone opens a terminal. A built-in stage feeds that evidence to a model to draft the root-cause report along the on-call team's own investigation script; in production it currently runs collection-only, with the drafting stage switched off.",
-      },
-    ],
-    migrationLabel: "MIGRATION & ENGINEERING DISCIPLINE",
-    migrationTitle: "11+ legacy tools moved to a modern stack — none of it \"looked done\"",
-    migrationBody:
-      "Every migration was only called complete after its output was diffed line-by-line or byte-by-byte against the system it replaced — never after it merely appeared to work. That discipline produced 400+ automated tests across the migrated tools, and it's the same rule this whole portfolio follows: dry-run by default, explicit confirmation before any destructive write, evidence before claims.",
-    projectsLabel: `${PROJECTS.length} PRODUCTION SYSTEMS, REBUILT FROM SCRATCH`,
-    projectsTitle: "Pick one and look inside",
-    projectsSub:
-      "Every system below is running in production today. Each repo is a from-scratch, fictional-data reconstruction of its architecture — same design decisions, none of the client data.",
-    codeLink: "code",
-    stackLabel: "STACK",
-    footerNote: "Built and documented with Claude Code and Codex. All MapCidade demo data is fictional.",
+  "pt": {
+    "role": "Engenharia de software",
+    "intro": "Desenvolvo ferramentas para monitoramento, análise de dados e automação de processos em sistemas de produção.",
+    "projects": "Projetos",
+    "context": "Os repositórios são reconstruções anonimizadas das ferramentas, com dados fictícios.",
+    "index": "Áreas de atuação",
+    "problem": "Problema",
+    "solution": "Como implementei",
+    "code": "Código no GitHub",
+    "demo": "Demo online",
+    "language": "Idioma",
+    "skip": "Ir para o conteúdo"
   },
-  pt: {
-    kicker: "PORTFOLIO — SISTEMAS ANONIMIZADOS",
-    heroTitle: "Construo as ferramentas que tornam visível o que já quebrou, antes que custe caro.",
-    heroBody:
-      "Engenheiro de software focado em automação com IA pra sistemas legados e observabilidade operacional. Tudo abaixo é uma reconstrução anonimizada, feita do zero, de arquitetura real de produção — dado fictício, engenharia real.",
-    heroCta: "Ver os sistemas ↓",
-    aiSectionLabel: "AUTOMAÇÃO E IA",
-    aiSectionTitle: "Triagem de chamados e investigação de incidentes",
-    aiCards: [
-      {
-        title: "Classificador de chamado",
-        stat: "2.256 chamados classificados · US$ 4,11 de custo total de API",
-        body: "Uma camada de regras + busca full-text resolve a maioria dos chamados sozinha. Um modelo só é acionado nos casos difíceis o suficiente pra precisar de um. Toda classificação ainda passa por revisão humana antes de virar decisão final.",
-      },
-      {
-        title: "Monitor de disponibilidade com pipeline de causa raiz",
-        stat: "123 ambientes observados em tempo real",
-        body: "Detecta uma queda e coleta a evidência por acesso somente-leitura na hora em que ela acontece, antes de alguém abrir um terminal. Uma etapa embutida entrega essa evidência a um modelo pra rascunhar o relatório de causa raiz no roteiro de investigação da equipe de plantão; em produção, hoje roda só a coleta, com a etapa de rascunho desligada.",
-      },
-    ],
-    migrationLabel: "MIGRAÇÃO E DISCIPLINA DE ENGENHARIA",
-    migrationTitle: "11+ ferramentas legadas migradas — nenhuma \"parecia estar pronta\"",
-    migrationBody:
-      "Toda migração só foi considerada pronta depois de comparar a saída, linha a linha ou byte a byte, contra o sistema que ela substituiu — nunca só porque parecia funcionar. Essa disciplina gerou mais de 400 testes automatizados nas ferramentas migradas, e é a mesma regra que esse portfolio inteiro segue: dry-run por padrão, confirmação explícita antes de qualquer escrita destrutiva, evidência antes de afirmação.",
-    projectsLabel: `${PROJECTS.length} SISTEMAS EM PRODUÇÃO, RECONSTRUÍDOS DO ZERO`,
-    projectsTitle: "Escolha um e olhe por dentro",
-    projectsSub:
-      "Todos os sistemas abaixo estão em produção hoje. Cada repo é uma reconstrução anonimizada, com dado fictício, da arquitetura dele — mesma decisão técnica, nenhum dado de cliente.",
-    codeLink: "código",
-    stackLabel: "STACK",
-    footerNote: "Construído e documentado com Claude Code e Codex. Todas as demonstrações do MapCidade usam dados fictícios.",
-  },
-} as const;
+  "en": {
+    "role": "Software engineering",
+    "intro": "I build tools for monitoring, data analysis, and workflow automation in production systems.",
+    "projects": "Projects",
+    "context": "The repositories contain anonymized reconstructions of the tools using fictional data.",
+    "index": "Project areas",
+    "problem": "Problem",
+    "solution": "Implementation",
+    "code": "Code on GitHub",
+    "demo": "Live demo",
+    "language": "Language",
+    "skip": "Skip to content"
+  }
+};

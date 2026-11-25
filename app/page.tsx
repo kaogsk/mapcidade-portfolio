@@ -1,122 +1,98 @@
 "use client";
 
 import { useState } from "react";
-import { COPY, PROJECTS, type Lang } from "@/lib/content";
+import { AREAS, COPY, PROJECTS, type Lang } from "@/lib/content";
+
+const areas = Object.keys(AREAS) as (keyof typeof AREAS)[];
+const profiles = [
+  { name: "GitHub", url: "https://github.com/kaogsk" },
+  { name: "LinkedIn", url: "https://www.linkedin.com/in/oc-wellington/" },
+];
 
 export default function Home() {
-  const [lang, setLang] = useState<Lang>("en");
+  const [lang, setLang] = useState<Lang>("pt");
   const t = COPY[lang];
+
+  function changeLanguage(next: Lang) {
+    document.documentElement.lang = next === "pt" ? "pt-BR" : "en";
+    setLang(next);
+  }
 
   return (
     <>
-      <header className="topbar">
-        <div className="wrap topbar-inner">
-          <div className="brand">
-            <span className="brand-dot" aria-hidden />
-            MAPCIDADE.SYS
-          </div>
-          <div className="lang-toggle" role="group" aria-label="Language">
-            <button className={lang === "en" ? "active" : ""} onClick={() => setLang("en")}>
-              EN
-            </button>
-            <button className={lang === "pt" ? "active" : ""} onClick={() => setLang("pt")}>
-              PT
-            </button>
+      <a className="skip" href="#main">{t.skip}</a>
+      <header className="masthead">
+        <div className="wrap masthead-inner">
+          <a className="wordmark" href="#main">Wellington Costa</a>
+          <div className="language" role="group" aria-label={t.language}>
+            <button type="button" lang="pt" aria-pressed={lang === "pt"} onClick={() => changeLanguage("pt")}>PT</button>
+            <button type="button" lang="en" aria-pressed={lang === "en"} onClick={() => changeLanguage("en")}>EN</button>
           </div>
         </div>
       </header>
 
-      <main>
-        <section className="hero" style={{ borderTop: "none" }}>
-          <div className="wrap">
-            <div className="kicker">{t.kicker}</div>
-            <h1 className="hero-title">{t.heroTitle}</h1>
-            <p className="hero-body">{t.heroBody}</p>
-            <a className="hero-cta" href="#projects">
-              {t.heroCta}
-            </a>
+      <main id="main" className="wrap">
+        <section className="intro" aria-labelledby="intro-title">
+          <h1 id="intro-title">{t.role}</h1>
+          <p>{t.intro}</p>
+          <div className="profiles">
+            {profiles.map(({ name, url }) => (
+              <a key={name} href={url} target="_blank" rel="noreferrer">
+                {name} <span aria-hidden="true">↗</span>
+              </a>
+            ))}
           </div>
         </section>
 
-        <section id="ai">
-          <div className="wrap">
-            <div className="section-label">{t.aiSectionLabel}</div>
-            <h2 className="section-title">{t.aiSectionTitle}</h2>
-            <div className="ai-grid">
-              {t.aiCards.map((card) => (
-                <div className="hud-card ai-card" key={card.title}>
-                  <h3>{card.title}</h3>
-                  <div className="ai-stat">{card.stat}</div>
-                  <p>{card.body}</p>
-                </div>
-              ))}
-            </div>
+        <section id="projects" aria-labelledby="projects-title" className="projects">
+          <div className="project-intro">
+            <h2 id="projects-title">{t.projects}</h2>
+            <p>{t.context}</p>
           </div>
-        </section>
 
-        <section id="migration">
-          <div className="wrap">
-            <div className="section-label">{t.migrationLabel}</div>
-            <h2 className="section-title">{t.migrationTitle}</h2>
-            <div className="migration-panel">
-              <p>{t.migrationBody}</p>
-            </div>
-          </div>
-        </section>
-
-        <section id="projects">
-          <div className="wrap">
-            <div className="section-label">{t.projectsLabel}</div>
-            <h2 className="section-title">{t.projectsTitle}</h2>
-            <p className="section-sub">{t.projectsSub}</p>
-            <div className="project-grid">
-              {PROJECTS.map((p) => (
-                <div className="hud-card project-card" key={p.slug}>
-                  <div className="project-top">
-                    <span className="project-name">{p.name}</span>
-                    <span className="project-tag">{p.tag}</span>
+          <div className="catalog">
+            <nav className="index" aria-label={t.index}>
+              {areas.map((area) => <a key={area} href={`#${area}`}>{AREAS[area][lang]}</a>)}
+            </nav>
+            <div className="groups">
+              {areas.map((area) => (
+                <section className="group" id={area} key={area} aria-labelledby={`${area}-title`}>
+                  <h3 id={`${area}-title`}>{AREAS[area][lang]}</h3>
+                  <div className="project-grid">
+                    {PROJECTS.filter((project) => project.area === area).map((p) => (
+                      <article className="project-card" key={p.slug} aria-labelledby={`${p.slug}-title`}>
+                        <div className="card-heading">
+                          <h4 id={`${p.slug}-title`}>{p.title[lang]}</h4>
+                          <span className="format">{p.format}</span>
+                        </div>
+                        <dl>
+                          <dt>{t.problem}</dt>
+                          <dd>{p.problem[lang]}</dd>
+                          <dt>{t.solution}</dt>
+                          <dd>{p.solution[lang]}</dd>
+                        </dl>
+                        <ul className="stack" role="list">
+                          {p.stack.map((item) => <li key={item}>{item}</li>)}
+                        </ul>
+                        <div className="card-links">
+                          <a href={`https://github.com/kaogsk/mapcidade-${p.slug}`} target="_blank" rel="noreferrer" aria-label={`${t.code} · ${p.title[lang]}`}>
+                            {t.code} <span aria-hidden="true">↗</span>
+                          </a>
+                          {p.demoUrl && (
+                            <a href={p.demoUrl} target="_blank" rel="noreferrer">
+                              {t.demo} <span aria-hidden="true">↗</span>
+                            </a>
+                          )}
+                        </div>
+                      </article>
+                    ))}
                   </div>
-                  <p className="project-problem">{p.problem[lang]}</p>
-                  <div className="project-stack">{p.stack.join(" · ")}</div>
-                  <div className="project-links">
-                    {p.repoUrl && (
-                      <a href={p.repoUrl} target="_blank" rel="noreferrer">
-                        → {t.codeLink}
-                      </a>
-                    )}
-                    {p.demoUrl ? (
-                      <a href={p.demoUrl} target="_blank" rel="noreferrer">
-                        → {p.demoLabel[lang]}
-                      </a>
-                    ) : (
-                      <span className="disabled">→ {p.demoLabel[lang]}</span>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section id="stack">
-          <div className="wrap">
-            <div className="section-label">{t.stackLabel}</div>
-            <div className="stack-strip">
-              {["TypeScript", "Node.js", "Express", "Next.js", "Python", "PostgreSQL", "PostGIS", "Docker", "Claude API"].map((s) => (
-                <span key={s}>{s}</span>
+                </section>
               ))}
             </div>
           </div>
         </section>
       </main>
-
-      <footer className="wrap">
-        <span>© 2026 — MapCidade Portfolio</span>
-        <span>{t.footerNote}</span>
-        <a href="https://github.com/kaogsk" target="_blank" rel="noreferrer">
-          github.com/kaogsk
-        </a>
-      </footer>
     </>
   );
 }

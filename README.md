@@ -1,47 +1,14 @@
-# MapCidade — Systems Portfolio
+# Wellington Costa — Portfólio
 
-> Bilingual EN/PT portfolio built with Next.js. It presents anonymized reconstructions of production systems and case studies in support automation and incident investigation. All demos use fictional MapCidade data.
+Portfólio de engenharia de software em português e inglês. Os projetos são reconstruções anonimizadas de ferramentas de produção, com dados fictícios.
 
-## English
-
-### Stack
-
-Next.js 16 (App Router), React 19, TypeScript. No CSS framework — hand-written design system in `app/globals.css` (dark, terminal/systems-status aesthetic: JetBrains Mono for UI chrome, Newsreader serif for editorial copy, amber/green accent pair).
-
-### Structure
-
-- `lib/content.ts` — all copy and project data, both languages, one object
-- `app/page.tsx` — single page, client-side language toggle (no routing needed)
-- `app/globals.css` — design system (tokens, HUD-style cards, layout)
-
-### How to run
+## Desenvolvimento local
 
 ```bash
-npm install
+npm ci
 npm run dev
-# open http://localhost:3000
 ```
 
-## Português
+Abra http://localhost:3000. Execute `npm run build` para verificar o build de produção.
 
-### Stack
-
-Next.js 16 (App Router), React 19, TypeScript. Sem framework CSS — design system escrito à mão em `app/globals.css` (estética escura, terminal/status de sistema: JetBrains Mono pro chrome da UI, Newsreader serifada pro texto editorial, par de cores âmbar/verde).
-
-### Estrutura
-
-- `lib/content.ts` — todo o conteúdo e os dados dos projetos, nos dois idiomas, num objeto só
-- `app/page.tsx` — página única, alternância de idioma no client (sem necessidade de roteamento)
-- `app/globals.css` — design system (tokens, cards estilo HUD, layout)
-
-### Como rodar
-
-```bash
-npm install
-npm run dev
-# abrir http://localhost:3000
-```
-
-## License
-
-MIT
+O catálogo e as traduções ficam em `lib/content.ts`. A página e os estilos ficam em `app/page.tsx` e `app/globals.css`.
